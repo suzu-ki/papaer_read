@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF論文読み上げアプリ</title>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 40px;
+            max-width: 800px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #output {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 15px;
+            height: 300px;
+            overflow-y: scroll;
+            white-space: pre-wrap;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 16px;
+            border: none;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        #error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>📖 PDF論文読み上げアプリ</h1>
+
+    <form id="uploadForm">
+        <label for="pdfFile">PDFファイルを選択：</label>
+        <input type="file" id="pdfFile" name="pdf" accept="application/pdf" required>
+        <br><br>
+
+        <label for="langSelect">読み上げ言語：</label>
+        <select id="langSelect">
+            <option value="ja-JP">日本語</option>
+            <option value="en-US">英語</option>
+        </select>
+
+        <br><br>
+        <button type="submit">PDFを読み込む</button>
+    </form>
+
+    <p id="error"></p>
+    <div id="output"></div>
+
+    <div id="controls" style="display:none;">
+        <button id="playBtn">▶ 再生</button>
+        <button id="pauseBtn">⏸ 一時停止</button>
+        <button id="resumeBtn">⏯ 再開</button>
+        <button id="stopBtn">⏹ 停止</button>
+    </div>
+</body>
+</html>

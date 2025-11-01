@@ -6,16 +6,19 @@ let currentAudio = null; // ← 再生中のAudioを保持
 let isPaused = false;
 
 const form = document.getElementById("uploadForm");
+const dropArea = document.getElementById("dropArea");
 const output = document.getElementById("output");
 const errorEl = document.getElementById("error");
 const controls = document.getElementById("controls");
 const sectionSelect = document.getElementById("sectionSelect");
 const currentReading = document.getElementById("currentReading");
 
+const fileInput = document.getElementById("pdfFile");
+
 // PDFアップロード
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const fileInput = document.getElementById("pdfFile");
+    
     const formData = new FormData();
     formData.append("pdf", fileInput.files[0]);
 
@@ -47,6 +50,27 @@ form.addEventListener("submit", async (e) => {
     }
 });
 
+// ドラッグオーバー・ドラッグリーブ
+dropArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropArea.style.borderColor = "#00f";
+});
+dropArea.addEventListener("dragleave", () => {
+    dropArea.style.borderColor = "#ccc";
+});
+
+// ドロップで input にセット
+dropArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropArea.style.borderColor = "#ccc";
+    const files = e.dataTransfer.files;
+    if (files.length > 0 && files[0].type === "application/pdf") {
+        fileInput.files = files;
+    } else {
+        alert("PDFファイルのみアップロード可能です。");
+    }
+});
+
 // Section選択
 sectionSelect.addEventListener("change", () => {
     currentSectionIndex = parseInt(sectionSelect.value);
@@ -71,8 +95,13 @@ async function playSpeech() {
         sentences = sectionText.split(". ").filter(s => s.trim() !== "").map(s => s + ". ");
     }
 
+    const auio_style = document.getElementById("audioSelect").value;
     sentenceIndex = 0;
-    await speakNextSentenceVOICEVOX(sentences);
+    if (auio_style.startsWith("system")){
+        speakNextSentence(lang);
+    }else{
+        await speakNextSentenceVOICEVOX(sentences);
+    }
 }
 
 async function speakNextSentenceVOICEVOX(sentences) {
@@ -119,6 +148,25 @@ async function speakNextSentenceVOICEVOX(sentences) {
     } catch (err) {
         console.error("VOICEVOX再生中にエラー:", err);
     }
+}
+
+// 次の文を再生
+function speakNextSentence(lang) {
+    if (sentenceIndex >= sentences.length) return;
+
+    const utterance = new SpeechSynthesisUtterance(sentences[sentenceIndex]);
+    utterance.lang = lang;
+
+    utterance.onstart = () => {
+        currentReading.textContent = sentences[sentenceIndex];
+    };
+
+    utterance.onend = () => {
+        sentenceIndex++;
+        speakNextSentence(lang);
+    };
+
+    speechSynthesis.speak(utterance);
 }
 
 // 一時停止・再開・停止

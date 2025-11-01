@@ -37,12 +37,17 @@
                 <input type="file" id="pdfFile" name="pdf" accept="application/pdf" required>
                 <br><br>
 
+                <div id="dropArea" style="border: 2px dashed #ccc; padding: 20px; text-align: center;">
+                    ここにPDFをドラッグ＆ドロップ
+                </div>
+
+                <p>
                 <label for="langSelect">読み上げ言語：</label>
                 <select id="langSelect">
-                <option value="ja-JP">日本語</option>
-                <option value="en-US">英語</option>
+                    <option value="ja-JP">日本語</option>
+                    <option value="en-US">英語</option>
                 </select>
-                <br><br>
+                </p>
 
                 <button type="submit">PDFを読み込む</button>
             </form>
@@ -57,6 +62,12 @@
         <p id="error"></p>
         <label for="sectionSelect">Section選択：</label>
         <select id="sectionSelect"></select>
+        <label for="audioSelect">音声：</label>
+        <select id="audioSelect">
+            <option value="system">システム音声</option>
+            <option value="zun">ずんだもん</option>
+        </select>
+        <br><br>
 
         <div id="controls" style="display:none;">
             <button id="playBtn">▶ 再生</button>

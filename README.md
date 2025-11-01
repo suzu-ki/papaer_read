@@ -1,10 +1,16 @@
 ## PDF読み上げアプリ（ローカル）
+
+### 注意!!
+> 本アプリはローカルで起動・利用することを前提としています
+- 開発中です
+- バグありです
+- 使用の場合は自己責任でお願いします
+
 #### 必要なアプリ
 - VOICEVOX(開発時バージョン：0.24.2)
 
 #### 立ち上げ
 ##### 初回：
-
 ```
 python -m venv env
 . env/bin/activate
@@ -35,3 +41,4 @@ python app4.py
 - Mac OS：Sonoma 14.5
 - Google Chrome
 - Apple Silicon M1 Pro
+- Flask

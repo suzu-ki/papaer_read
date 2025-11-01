@@ -17,6 +17,11 @@ def is_heading(block):
     text = block["text"]#.strip()
     if not text:
         return False
+    
+    fontsize = block["fontsize"]
+    # print(fontsize, text)
+    if fontsize <= 10:
+        return False
 
     # 「数字. 」で始まる場合（例: 1. Introduction）
     if re.match(r"^\s{0,3}\d+\.\s", text):
@@ -160,7 +165,6 @@ def upload_pdf():
                 break
             blocks = page.get_text("dict")["blocks"]
             for b in blocks:
-                print(b)
                 if b["type"] != 0 or "lines" not in b:
                     continue
                 for line in b["lines"]:
@@ -192,7 +196,11 @@ def upload_pdf():
                             sections.append(current_section)
                         current_section = {"title": line_text, "text": ""}
                     else:
-                        current_section["text"] += line_text #+ " "
+                        if current_section["title"] == "Intro":
+                            current_section["text"] += line_text
+                        else:
+                            if fontsize >= 9:
+                                current_section["text"] += line_text
 
         if current_section["text"]:
             sections.append(current_section)

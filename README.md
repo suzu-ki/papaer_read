@@ -28,9 +28,9 @@ pip install -r requirements.txt
 - VOICEVOXの起動
     - 音声を「VOICEVOX」に選択時必要
     - 「システム音声」も選択可能
-- app4.pyの実行
+- app.pyの実行
 ```
-python app4.py
+python app.py
 ```
 
 - 「ファイルを選択」もしくはドラッグアンドドロップで任意の論文ファイルをアップロード

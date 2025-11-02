@@ -11,6 +11,8 @@
 
 #### 立ち上げ
 ##### 初回：
+- まずは、git cloneによる本リポジトリのコードのダウンロードが必要
+
 ```
 python -m venv env
 . env/bin/activate
